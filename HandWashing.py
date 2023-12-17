@@ -1,4 +1,4 @@
-# Trying to check if both hands are together inside an specific area of the recording, the idea is to use it to verify if someone is or not washing their hands
+# Check if the hands are together and if they are within a specific area.
 
 import cv2
 import mediapipe as mp
@@ -38,9 +38,9 @@ def handsInsideBox(landmarks, center, radius, height, width):
                     (center[1] - radius) < right_index_y and right_index_y < (center[1] + radius))
         return False
 
-def draw_green_dot_and_rectangle(frame, center, radius, width, height):
+def draw_rectangle(frame, center, radius, width, height):
     # this coordinates must be in base of the real size of the recording
-    # Draw a rectangle around the green dot
+    # Draw a rectangle around the defined area
     radius_X, radius_Y = width*radius, height*radius
     bottom_left = (int(center[0] - radius_X), int(center[1] - radius_Y))
     top_right = (int(center[0] + radius_X), int(center[1] + radius_Y))
@@ -101,7 +101,7 @@ while cap.isOpened():
         cv2.putText(frame, "Hands inside the box", (290, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
     # Draw the box to help us visualize
-    draw_green_dot_and_rectangle(frame, center, radius, width, height)
+    draw_rectangle(frame, center, radius, width, height)
 
     cv2.imshow('HandWashing V1', frame)
 
